@@ -37,7 +37,7 @@ resource "aws_s3_bucket" "website" {
 
 data "aws_iam_policy_document" "website_bucket_policy" {
   statement {
-    sid    = "AllowCloudfrontRead"
+    sid    = "AllowCloudfrontReadObjects"
     effect = "Allow"
     actions = [
       "s3:GetObject"
@@ -45,6 +45,29 @@ data "aws_iam_policy_document" "website_bucket_policy" {
     resources = [
       "${aws_s3_bucket.website.arn}${local.s3_public_path}"
     ]
+    principals {
+      type = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.website_s3_access.iam_arn]
+    }
+  }
+
+  statement {
+    sid    = "AllowCloudfrontListObjects"
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket"
+    ]
+    resources = [
+      aws_s3_bucket.website.arn,
+    ]
+    condition {
+      test     = "StringLike"
+      variable = "s3:prefix"
+
+      values = [
+        "${var.s3_root_path}*",
+      ]
+    }
     principals {
       type = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.website_s3_access.iam_arn]
