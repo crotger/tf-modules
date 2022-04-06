@@ -14,8 +14,9 @@ variable "dns_zone_id" {
   description = "Zone ID of a route53 zone that hosts var.domain_name"
 }
 
-variable "certificate" {
-  type = any
+variable "certificate_arn" {
+  type = string
+  description = "ARN of an AWS certificate to use for TLS"
 }
 
 locals {
