@@ -14,7 +14,7 @@ variable "bucket" {
 }
 
 locals {
-  local_content_base  = abspath(var.content_folder)
+  local_content_base  = var.content_folder
   remote_content_base = var.s3_root_path
   files = fileset(local.local_content_base, "**")
 
@@ -29,7 +29,7 @@ locals {
   # default_mime_type = "binary/octet-stream"
 }
 
-resource "aws_s3_bucket_object" "website_files" {
+resource "aws_s3_object" "website_files" {
   for_each = local.files
   bucket = var.bucket.bucket
   key = "${local.remote_content_base}/${each.value}"
@@ -44,5 +44,5 @@ output "files" {
 }
 
 output "objects" {
-  value = aws_s3_bucket_object.website_files.*
+  value = aws_s3_object.website_files.*
 }
