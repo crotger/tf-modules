@@ -10,12 +10,12 @@ variable "s3_root_path" {
 }
 
 variable "dns_zone_id" {
-  type = string
+  type        = string
   description = "Zone ID of a route53 zone that hosts var.domain_name"
 }
 
 variable "certificate_arn" {
-  type = string
+  type        = string
   description = "ARN of an AWS certificate to use for TLS"
 }
 
@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "website_bucket_policy" {
       "${aws_s3_bucket.website.arn}${local.s3_public_path}"
     ]
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.website_s3_access.iam_arn]
     }
   }
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "website_bucket_policy" {
       ]
     }
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.website_s3_access.iam_arn]
     }
   }

@@ -5,7 +5,7 @@ resource "aws_cloudfront_distribution" "website" {
 
   origin {
     domain_name = aws_s3_bucket.website.bucket_regional_domain_name
-    origin_id    = "S3Static"
+    origin_id   = "S3Static"
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.website_s3_access.cloudfront_access_identity_path
     }
@@ -33,8 +33,9 @@ resource "aws_cloudfront_distribution" "website" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = var.certificate_arn
-    ssl_support_method  = "sni-only"
+    acm_certificate_arn      = var.certificate_arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
     # cloudfront_default_certificate = true
   }
 
