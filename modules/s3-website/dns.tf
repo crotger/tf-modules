@@ -4,8 +4,8 @@ resource "aws_route53_record" "website_alias" {
   type    = "A"
 
   alias {
-    name    = aws_cloudfront_distribution.website.domain_name
-    zone_id = aws_cloudfront_distribution.website.hosted_zone_id
+    name                   = aws_cloudfront_distribution.website.domain_name
+    zone_id                = aws_cloudfront_distribution.website.hosted_zone_id
     evaluate_target_health = true
   }
 }
@@ -16,6 +16,6 @@ resource "aws_route53_record" "www_cname" {
   type    = "CNAME"
   ttl     = 300
   records = [
-     var.domain_name
+    var.domain_name
   ]
 }
